@@ -1,0 +1,44 @@
+A Standard UI Login Page means the design that every good app like Gmail, Canvas, Instagram follows. It's not random - there are rules.
+
+Here are the 5 standards
+
+Layout - Clean & Centered
+Logo on top
+One big card in center (not full screen form)
+White background + light gray outer
+Example Gmail sign page you just saw
+
+Must-Have Elements
+Title
+Subtext
+Input fields EmailPhone + Password (only 2)
+Primary Button or - Blue, rounded
+Secondary Links,
+Footer Help, Privacy, Terms, Language selector
+
+UX Standards
+Show password eye icon
+Error in red just below field - e.g., Wrong password
+Keyboard should work - Enter = Next
+Remember me  Guest mode option
+
+Security Standard
+Never say email does not exist - always say Wrong email or password
+HTTPS + 2-step option
+No more than 2 fields at once
+
+Accessibility (Important for Canvas)
+Label always visible - not only placeholder
+Button size min 44px
+Contrast ratio 4.51
+
+Ideal Structure for Student Canvas Login
+[Logo] Student Canvas
+Sign in to your account
+
+[ Email or Username ]
+[ Password ] [eye]
+
+[ ] Remember me Forgot password
+
+[ Log In ]
