@@ -6,18 +6,16 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: #fcf4ed;
   color: #333333;
 }
 
+/* Full Screen Background */
 .page-wrapper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 30px 20px;
-
-  /* Background image properties */
   background-image: url('./assets/background.png');
   background-size: cover;
   background-position: center;
@@ -33,20 +31,30 @@ body {
   max-width: 480px;
 }
 
-/* Logo Styling */
-.logo-container {
+/* Logos Header */
+.logos-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
 }
 
 .school-logo {
-  width: 130px;
-  height: auto;
   object-fit: contain;
 }
 
-/* Main Heading */
+.vhpa-logo {
+  height: 110px;
+  width: auto;
+}
+
+.balvihar-logo {
+  height: 115px;
+  width: auto;
+}
+
+/* Page Title */
 .school-title {
   color: #632313;
   font-size: 1.7rem;
@@ -55,7 +63,7 @@ body {
   margin-bottom: 24px;
 }
 
-/* White Form Card */
+/* Login Card */
 .form-card {
   width: 100%;
   background: #ffffff;
@@ -73,7 +81,7 @@ body {
   margin-bottom: 24px;
 }
 
-/* Form Inputs */
+/* Input Fields */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -109,7 +117,7 @@ body {
   box-shadow: 0 0 0 2px rgba(22, 121, 70, 0.2);
 }
 
-/* Password Eye Toggle */
+/* Password Eye Button */
 .password-wrapper {
   position: relative;
   display: flex;
@@ -127,7 +135,7 @@ body {
   padding: 0;
 }
 
-/* Dropdown */
+/* Custom Dropdown Arrow */
 .select-wrapper {
   position: relative;
 }
@@ -149,7 +157,7 @@ body {
   pointer-events: none;
 }
 
-/* Green Login Button */
+/* Green Submit Button */
 .submit-button {
   width: 100%;
   background-color: #167946;

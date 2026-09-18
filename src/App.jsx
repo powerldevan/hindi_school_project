@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import vhpaLogo from './assets/vhpa-logo.png';
 import balviharLogo from './assets/balvihar-logo.png';
 
 function App() {
@@ -16,24 +17,29 @@ function App() {
   return (
     <div className="page-wrapper">
       <div className="login-card-container">
-        {/* Balvihar Logo */}
-        <div className="logo-container">
-          <img 
-            src={balviharLogo} 
-            alt="Balvihar Educational Program of VHPA" 
-            className="school-logo"
+        {/* Dual Logos */}
+        <div className="logos-row">
+          <img
+            src={vhpaLogo}
+            alt="VHPA World Hindu Council of America"
+            className="school-logo vhpa-logo"
+          />
+          <img
+            src={balviharLogo}
+            alt="Balvihar Educational Program"
+            className="school-logo balvihar-logo"
           />
         </div>
 
         {/* Title */}
         <h1 className="school-title">Balvihar Hindi School of Atlanta</h1>
 
-        {/* Login Box */}
+        {/* Card Box */}
         <div className="form-card">
           <h2 className="card-heading">Sign In to Your Account</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* Username Field */}
+            {/* Username Input */}
             <div className="input-group">
               <label htmlFor="username">Username</label>
               <input
@@ -46,7 +52,7 @@ function App() {
               />
             </div>
 
-            {/* Password Field */}
+            {/* Password Input */}
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-wrapper">
