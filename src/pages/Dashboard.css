@@ -1,0 +1,250 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #fcf4ed;
+  color: #333333;
+}
+
+.portal-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.portal-header {
+  background-color: #ffffff;
+  border-bottom: 3px solid #167946;
+  padding: 16px 30px;
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.portal-logo {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+}
+
+.portal-titles h1 {
+  font-size: 1.25rem;
+  color: #632313;
+  font-weight: 800;
+}
+
+.portal-titles p {
+  font-size: 0.82rem;
+  color: #555555;
+  margin-top: 2px;
+}
+
+/* User Profile Badge */
+.user-profile-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.user-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #333333;
+}
+
+.user-role-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #167946;
+}
+
+.portal-logout-btn {
+  background-color: #632313;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.portal-logout-btn:hover {
+  background-color: #48190d;
+}
+
+/* Primary Top Navigation Bar */
+.portal-nav {
+  background-color: #167946;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: #115c35;
+}
+
+/* Dropdown Flyouts */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  min-width: 220px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 6px 6px;
+  border-top: 3px solid #632313;
+  z-index: 200;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-link {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333333;
+  border-bottom: 1px solid #f1f1f1;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.dropdown-link:last-child {
+  border-bottom: none;
+}
+
+.dropdown-link:hover {
+  background-color: #fcf4ed;
+  color: #632313;
+}
+
+/* Main Content Area */
+.portal-body {
+  max-width: 1280px;
+  width: 100%;
+  margin: 28px auto;
+  padding: 0 20px;
+  flex-grow: 1;
+}
+
+.view-card {
+  background: #ffffff;
+  border: 1.5px solid #167946;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumbs {
+  font-size: 0.82rem;
+  color: #718096;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.tab-header {
+  color: #632313;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.welcome-instruction {
+  font-size: 0.95rem;
+  color: #4a5568;
+  margin-bottom: 24px;
+}
+
+.notice-card {
+  background-color: #fcf4ed;
+  border-left: 4px solid #632313;
+  padding: 18px 22px;
+  border-radius: 0 8px 8px 0;
+}
+
+.notice-card h3 {
+  font-size: 1.05rem;
+  color: #632313;
+  margin-bottom: 10px;
+}
+
+.notice-card ul {
+  padding-left: 20px;
+}
+
+.notice-card li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #2d3748;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .portal-nav .nav-container {
+    flex-direction: column;
+  }
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    background-color: #0e522e;
+  }
+  .dropdown-link {
+    color: #ffffff;
+    padding-left: 30px;
+  }
+  .dropdown-link:hover {
+    background-color: #115c35;
+    color: #ffffff;
+  }
+}
