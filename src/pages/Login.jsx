@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 import '../App.css';
 import vhpaLogo from '../assets/vhpa-logo.png';
 import balviharLogo from '../assets/balvihar-logo.png';
@@ -9,17 +11,54 @@ function Login({ setUserData }) {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Student');
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Save login details to pass to the next page
-    if (setUserData) {
-      setUserData({ username, role });
+    setErrorMessage('');
+    setLoading(true);
+
+    let email = username.trim().toLowerCase();
+    if (!email.includes('@')) {
+      email = `${email}@balvihar.org`;
     }
-    // Switch to the dashboard screen
-    navigate('/dashboard');
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (setUserData) {
+        setUserData({
+          username: user.email,
+          role: role,
+        });
+      }
+
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Firebase Auth Error:', error.code, error.message);
+
+      if (
+        error.code === 'auth/invalid-credential' ||
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password'
+      ) {
+        setErrorMessage('Invalid username or password. Please verify your credentials.');
+      } else if (error.code === 'auth/invalid-email') {
+        setErrorMessage('Invalid email format.');
+      } else if (error.code === 'auth/too-many-requests') {
+        setErrorMessage('Too many failed attempts. Please try again later.');
+      } else if (error.code === 'auth/api-key-not-valid') {
+        setErrorMessage('API key is invalid. Please verify your Google Cloud key restrictions.');
+      } else {
+        setErrorMessage(`Login failed: ${error.message}`);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,21 +85,31 @@ function Login({ setUserData }) {
         <div className="form-card">
           <h2 className="card-heading">Sign In to Your Account</h2>
 
-          <form onSubmit={handleSubmit}>
-            {/* Username Input */}
+          {/* Error Message Box */}
+          {errorMessage && (
+            <div className="error-alert">
+              <span>⚠️ {errorMessage}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleLogin}>
+            {/* Username / Email Field */}
             <div className="input-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="username">Username / Email</label>
               <input
                 id="username"
                 type="text"
-                placeholder="Enter your username"
+                placeholder="e.g. shaurya or shaurya@balvihar.org"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (errorMessage) setErrorMessage('');
+                }}
                 required
               />
             </div>
 
-            {/* Password Input */}
+            {/* Password Field */}
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-wrapper">
@@ -69,7 +118,10 @@ function Login({ setUserData }) {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (errorMessage) setErrorMessage('');
+                  }}
                   required
                 />
                 <button
@@ -113,8 +165,8 @@ function Login({ setUserData }) {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="submit-button">
-              Login
+            <button type="submit" className="submit-button" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>

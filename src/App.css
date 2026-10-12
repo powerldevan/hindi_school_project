@@ -78,7 +78,20 @@ body {
   text-align: center;
   font-size: 1.45rem;
   font-weight: 800;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+}
+
+/* Error Alert Box */
+.error-alert {
+  background-color: #fed7d7;
+  border-left: 4px solid #e53e3e;
+  color: #9b2c2c;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  line-height: 1.4;
 }
 
 /* Input Fields */
@@ -174,4 +187,9 @@ body {
 
 .submit-button:hover {
   background-color: #115c35;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 import './Dashboard.css';
 import balviharLogo from '../assets/balvihar-logo.png';
 import vhpaLogo from '../assets/vhpa-logo.png';
@@ -9,7 +11,12 @@ function Dashboard({ role, username }) {
   const [activeTab, setActiveTab] = useState('Home');
   const [selectedSubItem, setSelectedSubItem] = useState('');
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
     navigate('/');
   };
 
@@ -69,7 +76,7 @@ function Dashboard({ role, username }) {
         </div>
       </header>
 
-      {/* Main Dropdown Navigation Bar */}
+      {/* Main Brown Navigation Bar */}
       <nav className="portal-nav">
         <div className="nav-container">
           {/* Home */}
@@ -183,7 +190,7 @@ function Dashboard({ role, username }) {
         </div>
       </nav>
 
-      {/* Main Content View */}
+      {/* Main Body View */}
       <main className="portal-body">
         <div className="view-card">
           <div className="breadcrumbs">
