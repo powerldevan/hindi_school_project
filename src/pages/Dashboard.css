@@ -229,6 +229,188 @@ body {
   color: #2d3748;
 }
 
+/* =========================================
+   Class 201 Specific Date Tabs & Panels
+   ========================================= */
+
+.class-201-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.date-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+.date-tab-button {
+  background-color: #f7fafc;
+  border: 1.5px solid #cbd5e0;
+  color: #4a5568;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.date-tab-button .date-eng {
+  font-weight: 700;
+}
+
+.date-tab-button .date-hin {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: 2px;
+}
+
+.date-tab-button:hover {
+  background-color: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.date-tab-button.active {
+  background-color: #167946;
+  color: #ffffff;
+  border-color: #167946;
+}
+
+.date-tab-button.active .date-hin {
+  color: #e2e8f0;
+}
+
+.date-active-panel {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.date-content-panel h3.hindi-title {
+  color: #632313;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  border-bottom: 1.5px solid #eeddd4;
+  padding-bottom: 6px;
+}
+
+.lesson-badge {
+  display: inline-block;
+  background-color: #e6f4ea;
+  color: #167946;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+
+.asynch-tag {
+  display: inline-block;
+  background-color: #feebc8;
+  color: #c05621;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* Card Section Blocks */
+.work-block {
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.work-block h4 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.work-block ul,
+.work-block ol {
+  padding-left: 22px;
+}
+
+.work-block li {
+  margin-bottom: 6px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.classwork-block {
+  background-color: #f7fafc;
+  border-left: 4px solid #3182ce;
+}
+
+.classwork-block h4 {
+  color: #2b6cb0;
+}
+
+.homework-block {
+  background-color: #fcf4ed;
+  border-left: 4px solid #632313;
+}
+
+.homework-block h4 {
+  color: #632313;
+}
+
+.questions-block {
+  background-color: #f0fff4;
+  border-left: 4px solid #167946;
+}
+
+.questions-block h4 {
+  color: #167946;
+}
+
+.special-block {
+  background-color: #faf5ff;
+  border-left: 4px solid #805ad5;
+}
+
+.special-block h4 {
+  color: #6b46c1;
+}
+
+.info-box {
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  font-size: 0.93rem;
+}
+
+.notice-banner {
+  background-color: #e6f4ea;
+  border: 1.5px dashed #167946;
+  padding: 16px;
+  border-radius: 8px;
+  color: #167946;
+  font-size: 1rem;
+}
+
+.warning-note {
+  background-color: #fffaf0;
+  border-left: 4px solid #dd6b20;
+  color: #c05621;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  margin-top: 14px;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .portal-nav .nav-container {
@@ -246,5 +428,12 @@ body {
   .dropdown-link:hover {
     background-color: #0d4628;
     color: #ffffff;
+  }
+  .date-tabs-row {
+    flex-direction: column;
+  }
+  .date-tab-button {
+    width: 100%;
+    align-items: flex-start;
   }
 }
