@@ -44,7 +44,41 @@ function Dashboard({ role, username }) {
     { title: 'Sample Exam', hindi: 'नमूना परीक्षा' },
   ];
 
-  // Specific Date Details for Class 201
+  // Attendance Dates for Class 201
+  const attendanceDates = [
+    { date: '8/23/2026', hindiDate: '२३ अगस्त २०२६' },
+    { date: '9/13/2026', hindiDate: '१३ सितंबर २०२६' },
+    { date: '9/27/2026', hindiDate: '२७ सितंबर २०२६' },
+    { date: '10/4/2026', hindiDate: '४ अक्टूबर २०२६' },
+    { date: '10/18/2026', hindiDate: '१८ अक्टूबर २०२६' },
+  ];
+
+  const class201Students = [
+    'Ashpal Sharma',
+    'Krishna Singh',
+    'Vani Gaur',
+    'Prathmesh Agrawal',
+    'Aarnik Rai',
+    'Anaisha Kumar',
+    'Avani Batchu',
+    'Shaurya Baranwal',
+    'Anaya Tiwari',
+  ];
+
+  // Attendance Records: true = Present, false = Absent, null = Not recorded
+  const attendanceRecords = {
+    'Ashpal Sharma': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Krishna Singh': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Vani Gaur': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Prathmesh Agrawal': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Aarnik Rai': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Anaisha Kumar': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': false },
+    'Avani Batchu': { '8/23/2026': true, '9/13/2026': false, '9/27/2026': false, '10/4/2026': null, '10/18/2026': false },
+    'Shaurya Baranwal': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+    'Anaya Tiwari': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
+  };
+
+  // Class 201 Date Tabs
   const class201Dates = [
     {
       id: 'aug-23',
@@ -230,7 +264,7 @@ function Dashboard({ role, username }) {
 
   return (
     <div className="portal-container">
-      {/* Top Banner Header */}
+      {/* Top Header */}
       <header className="portal-header">
         <div className="header-inner">
           <div className="brand-group">
@@ -299,7 +333,7 @@ function Dashboard({ role, username }) {
                   className="dropdown-link"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleItemClick('Attendance', `${lvl} Attendance`);
+                    handleItemClick('Attendance', lvl);
                   }}
                 >
                   {lvl} (उपस्थिति {lvl.replace('Class ', '')})
@@ -379,12 +413,60 @@ function Dashboard({ role, username }) {
           </div>
 
           <h2 className="tab-header">
-            {selectedSubItem || activeTab}
+            {activeTab === 'Attendance' && selectedSubItem === 'Class 201'
+              ? 'Class 201 Attendance (कक्षा २०१ उपस्थिति)'
+              : selectedSubItem || activeTab}
           </h2>
 
           <div className="tab-inner-content">
-            {/* If Class 201 is selected, show Date Tabs */}
-            {activeTab === 'Class' && selectedSubItem === 'Class 201' ? (
+            {/* 1. Class 201 Attendance Table */}
+            {activeTab === 'Attendance' && selectedSubItem === 'Class 201' ? (
+              <div className="attendance-view-container">
+                <p className="attendance-subtitle">
+                  Attendance Record for Class 201 (कक्षा २०१ उपस्थिति अभिलेख)
+                </p>
+
+                <div className="table-responsive">
+                  <table className="attendance-table">
+                    <thead>
+                      <tr>
+                        <th className="student-col">Student's Name (विद्यार्थी का नाम)</th>
+                        {attendanceDates.map((d) => (
+                          <th key={d.date} className="date-col">
+                            <div>{d.date}</div>
+                            <small className="th-hindi">{d.hindiDate}</small>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {class201Students.map((student) => (
+                        <tr key={student}>
+                          <td className="student-name-cell">{student}</td>
+                          {attendanceDates.map((d) => {
+                            const val = attendanceRecords[student]?.[d.date];
+                            return (
+                              <td key={d.date} className="status-cell">
+                                {val === true && (
+                                  <span className="badge-present" title="Present">✓ Present (उपस्थित)</span>
+                                )}
+                                {val === false && (
+                                  <span className="badge-absent" title="Absent">✕ Absent (अनुपस्थित)</span>
+                                )}
+                                {val === null && (
+                                  <span className="badge-unrecorded" title="Not Recorded">—</span>
+                                )}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : activeTab === 'Class' && selectedSubItem === 'Class 201' ? (
+              /* 2. Class 201 Date Tabs */
               <div className="class-201-container">
                 <div className="date-tabs-row">
                   {class201Dates.map((item) => (
@@ -399,12 +481,12 @@ function Dashboard({ role, username }) {
                   ))}
                 </div>
 
-                {/* Date Specific Content Area */}
                 <div className="date-active-panel">
                   {activeDateData.content}
                 </div>
               </div>
             ) : (
+              /* 3. Default Page */
               <div>
                 <p className="welcome-instruction">
                   Welcome to the Balvihar Hindi School portal section (बालविहार हिंदी विद्यालय पोर्टल अनुभाग में आपका स्वागत है).

@@ -230,7 +230,104 @@ body {
 }
 
 /* =========================================
-   Class 201 Specific Date Tabs & Panels
+   Class 201 Attendance Table Styles
+   ========================================= */
+
+.attendance-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attendance-subtitle {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.88rem;
+}
+
+.attendance-table th {
+  background-color: #632313;
+  color: #ffffff;
+  padding: 12px 10px;
+  font-weight: 700;
+  border: 1px solid #4a190d;
+}
+
+.attendance-table .student-col {
+  text-align: left;
+  padding-left: 16px;
+  min-width: 180px;
+}
+
+.attendance-table .date-col {
+  min-width: 110px;
+}
+
+.th-hindi {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: normal;
+  color: #eeddd4;
+  margin-top: 2px;
+}
+
+.attendance-table td {
+  padding: 12px 8px;
+  border: 1px solid #edf2f7;
+}
+
+.student-name-cell {
+  text-align: left;
+  font-weight: 600;
+  color: #2d3748;
+  padding-left: 16px !important;
+  background-color: #fafbfc;
+}
+
+.status-cell {
+  vertical-align: middle;
+}
+
+.badge-present {
+  display: inline-block;
+  background-color: #e6f4ea;
+  color: #167946;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.badge-absent {
+  display: inline-block;
+  background-color: #fed7d7;
+  color: #c53030;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.badge-unrecorded {
+  color: #a0aec0;
+  font-weight: bold;
+}
+
+/* =========================================
+   Class 201 Date Tabs & Panels
    ========================================= */
 
 .class-201-container {
