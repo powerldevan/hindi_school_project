@@ -230,6 +230,301 @@ body {
 }
 
 /* =========================================
+   FULL MONTHLY CALENDAR GRID WITH BOXES
+   ========================================= */
+
+.calendar-interactive-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calendar-legend-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  padding: 12px 18px;
+  border-radius: 8px;
+}
+
+.legend-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #2d3748;
+}
+
+.dot-nhs {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #167946;
+  display: inline-block;
+}
+
+.legend-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-pills .pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.pill-in-person {
+  background-color: #e6f4ea;
+  color: #167946;
+}
+
+.pill-online {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+}
+
+.pill-special {
+  background-color: #fffaf0;
+  color: #c05621;
+}
+
+.pill-exam {
+  background-color: #fff5f5;
+  color: #c53030;
+}
+
+/* Nav Toolbar (Month Switcher) */
+.calendar-nav-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #632313;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.current-month-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eng-month-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.hin-month-text {
+  font-size: 0.85rem;
+  color: #eeddd4;
+  margin-top: 2px;
+}
+
+.month-btn-nav {
+  background-color: #ffffff;
+  color: #632313;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.month-btn-nav:hover:not(:disabled) {
+  background-color: #f7fafc;
+  transform: translateY(-1px);
+}
+
+.month-btn-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Quick Month Selector Bar */
+.month-quick-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+.month-tab-chip {
+  background: #edf2f7;
+  border: 1px solid #cbd5e0;
+  color: #4a5568;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.month-tab-chip:hover {
+  background-color: #e2e8f0;
+}
+
+.month-tab-chip.active {
+  background-color: #167946;
+  color: #ffffff;
+  border-color: #167946;
+}
+
+/* The Grid Container */
+.calendar-box-container {
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.calendar-weekdays-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #f7fafc;
+  border-bottom: 2px solid #cbd5e0;
+}
+
+.calendar-grid-header-box {
+  padding: 10px 4px;
+  text-align: center;
+  border-right: 1px solid #e2e8f0;
+}
+
+.calendar-grid-header-box:last-child {
+  border-right: none;
+}
+
+.cal-day-eng {
+  display: block;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #632313;
+}
+
+.cal-day-hin {
+  display: block;
+  font-size: 0.72rem;
+  color: #718096;
+}
+
+.calendar-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #cbd5e0;
+  gap: 1px;
+}
+
+/* Individual Day Boxes */
+.calendar-day-box {
+  background-color: #ffffff;
+  min-height: 108px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+.calendar-day-box:hover {
+  background-color: #fafbfc;
+}
+
+.calendar-day-box.empty-day {
+  background-color: #f7fafc;
+}
+
+.day-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.day-number {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.day-month-indicator {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #718096;
+  text-transform: uppercase;
+}
+
+/* Event Badge Inside Day Box */
+.event-badge-card {
+  padding: 6px 8px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.event-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.event-badge-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+/* Event Color Variations */
+.type-in-person {
+  background-color: #e6f4ea;
+  border-left: 3px solid #167946;
+}
+.type-in-person .event-badge-dot { background-color: #167946; }
+.type-in-person .event-badge-label { color: #115c35; }
+
+.type-online {
+  background-color: #ebf8ff;
+  border-left: 3px solid #3182ce;
+}
+.type-online .event-badge-dot { background-color: #3182ce; }
+.type-online .event-badge-label { color: #2b6cb0; }
+
+.type-special {
+  background-color: #fffaf0;
+  border-left: 3px solid #dd6b20;
+}
+.type-special .event-badge-dot { background-color: #dd6b20; }
+.type-special .event-badge-label { color: #c05621; }
+
+.type-exam {
+  background-color: #fff5f5;
+  border-left: 3px solid #e53e3e;
+}
+.type-exam .event-badge-dot { background-color: #e53e3e; }
+.type-exam .event-badge-label { color: #c53030; }
+
+/* Highlight Day Box with Event */
+.calendar-day-box.has-event {
+  background-color: #fdfefe;
+}
+
+/* =========================================
    Class 201 Attendance Table Styles
    ========================================= */
 
@@ -526,11 +821,14 @@ body {
     background-color: #0d4628;
     color: #ffffff;
   }
-  .date-tabs-row {
-    flex-direction: column;
+  .calendar-day-box {
+    min-height: 70px;
+    padding: 4px;
   }
-  .date-tab-button {
-    width: 100%;
-    align-items: flex-start;
+  .event-badge-label {
+    font-size: 0.65rem;
+  }
+  .cal-day-hin {
+    display: none;
   }
 }

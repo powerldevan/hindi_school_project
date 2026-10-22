@@ -12,6 +12,9 @@ function Dashboard({ role, username }) {
   const [selectedSubItem, setSelectedSubItem] = useState('');
   const [selectedDateTab, setSelectedDateTab] = useState('August 23, 2026');
 
+  // Month index for Interactive Full Calendar: 0 = August 2026 ... 9 = May 2027
+  const [calendarMonthIndex, setCalendarMonthIndex] = useState(0);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -44,7 +47,138 @@ function Dashboard({ role, username }) {
     { title: 'Sample Exam', hindi: 'नमूना परीक्षा' },
   ];
 
-  // Attendance Dates for Class 201
+  // Full calendar months with year, days count, starting weekday (0=Sun, 1=Mon...), and event map
+  const fullCalendarMonths = [
+    {
+      name: 'August 2026',
+      hindiName: 'अगस्त २०२६',
+      year: 2026,
+      monthNum: 7, // 0-indexed in JS (August = 7)
+      totalDays: 31,
+      startDay: 6, // Aug 1, 2026 is Saturday (6)
+      events: {
+        9: { title: '@NHS', type: 'in-person' },
+        23: { title: '@NHS', type: 'in-person' },
+        30: { title: 'SAC @NHS', type: 'special' },
+      },
+    },
+    {
+      name: 'September 2026',
+      hindiName: 'सितंबर २०२६',
+      year: 2026,
+      monthNum: 8,
+      totalDays: 30,
+      startDay: 2, // Sep 1, 2026 is Tuesday (2)
+      events: {
+        13: { title: 'Picnic @Jones Bridge Park', type: 'special' },
+        20: { title: 'Online (ऑनलाइन)', type: 'online' },
+        27: { title: '@NHS', type: 'in-person' },
+      },
+    },
+    {
+      name: 'October 2026',
+      hindiName: 'अक्टूबर २०२६',
+      year: 2026,
+      monthNum: 9,
+      totalDays: 31,
+      startDay: 4, // Oct 1, 2026 is Thursday (4)
+      events: {
+        4: { title: '@NHS', type: 'in-person' },
+        18: { title: '@NHS', type: 'in-person' },
+        25: { title: 'Online (ऑनलाइन)', type: 'online' },
+      },
+    },
+    {
+      name: 'November 2026',
+      hindiName: 'नवंबर २०२६',
+      year: 2026,
+      monthNum: 10,
+      totalDays: 30,
+      startDay: 0, // Nov 1, 2026 is Sunday (0)
+      events: {
+        1: { title: 'Diwali @Global Mall', type: 'special' },
+        15: { title: '@NHS', type: 'in-person' },
+        29: { title: 'Oral @NHS', type: 'exam' },
+      },
+    },
+    {
+      name: 'December 2026',
+      hindiName: 'दिसंबर २०२६',
+      year: 2026,
+      monthNum: 11,
+      totalDays: 31,
+      startDay: 2, // Dec 1, 2026 is Tuesday (2)
+      events: {
+        6: { title: 'Exam @NHS', type: 'exam' },
+      },
+    },
+    {
+      name: 'January 2027',
+      hindiName: 'जनवरी २०२७',
+      year: 2027,
+      monthNum: 0,
+      totalDays: 31,
+      startDay: 5, // Jan 1, 2027 is Friday (5)
+      events: {
+        10: { title: '@NHS', type: 'in-person' },
+        17: { title: 'Online (ऑनलाइन)', type: 'online' },
+        24: { title: '@NHS', type: 'in-person' },
+      },
+    },
+    {
+      name: 'February 2027',
+      hindiName: 'फ़रवरी २०२७',
+      year: 2027,
+      monthNum: 1,
+      totalDays: 28,
+      startDay: 1, // Feb 1, 2027 is Monday (1)
+      events: {
+        7: { title: '@NHS', type: 'in-person' },
+        21: { title: '@NHS', type: 'in-person' },
+        28: { title: 'Rehearsal-TBD', type: 'special' },
+      },
+    },
+    {
+      name: 'March 2027',
+      hindiName: 'मार्च २०२७',
+      year: 2027,
+      monthNum: 2,
+      totalDays: 31,
+      startDay: 1, // Mar 1, 2027 is Monday (1)
+      events: {
+        7: { title: '@NHS', type: 'in-person' },
+        14: { title: 'Annual function - TBD', type: 'special' },
+        21: { title: '@NHS', type: 'in-person' },
+      },
+    },
+    {
+      name: 'April 2027',
+      hindiName: 'अप्रैल २०२७',
+      year: 2027,
+      monthNum: 3,
+      totalDays: 30,
+      startDay: 4, // Apr 1, 2027 is Thursday (4)
+      events: {
+        11: { title: '@NHS', type: 'in-person' },
+        18: { title: 'Online (ऑनलाइन)', type: 'online' },
+        25: { title: 'Oral @NHS', type: 'exam' },
+      },
+    },
+    {
+      name: 'May 2027',
+      hindiName: 'मई २०२७',
+      year: 2027,
+      monthNum: 4,
+      totalDays: 31,
+      startDay: 6, // May 1, 2027 is Saturday (6)
+      events: {
+        2: { title: 'Exam @NHS', type: 'exam' },
+        9: { title: 'Gurudakshina-TBD', type: 'special' },
+      },
+    },
+  ];
+
+  // Attendance Records for Class 201
   const attendanceDates = [
     { date: '8/23/2026', hindiDate: '२३ अगस्त २०२६' },
     { date: '9/13/2026', hindiDate: '१३ सितंबर २०२६' },
@@ -65,7 +199,6 @@ function Dashboard({ role, username }) {
     'Anaya Tiwari',
   ];
 
-  // Attendance Records: true = Present, false = Absent, null = Not recorded
   const attendanceRecords = {
     'Ashpal Sharma': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
     'Krishna Singh': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
@@ -78,7 +211,6 @@ function Dashboard({ role, username }) {
     'Anaya Tiwari': { '8/23/2026': true, '9/13/2026': true, '9/27/2026': true, '10/4/2026': null, '10/18/2026': true },
   };
 
-  // Class 201 Date Tabs
   const class201Dates = [
     {
       id: 'aug-23',
@@ -261,6 +393,53 @@ function Dashboard({ role, username }) {
   };
 
   const activeDateData = class201Dates.find((d) => d.label === selectedDateTab) || class201Dates[0];
+  const currentMonthData = fullCalendarMonths[calendarMonthIndex];
+
+  // Helper to build the 7x5 or 7x6 month grid of days
+  const renderCalendarBoxes = () => {
+    const boxes = [];
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekdaysHindi = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
+
+    // 1. Render Weekday Header Boxes
+    const headers = weekdays.map((day, idx) => (
+      <div key={`header-${day}`} className="calendar-grid-header-box">
+        <span className="cal-day-eng">{day}</span>
+        <span className="cal-day-hin">({weekdaysHindi[idx]})</span>
+      </div>
+    ));
+
+    // 2. Empty padding boxes before the 1st of the month
+    for (let i = 0; i < currentMonthData.startDay; i++) {
+      boxes.push(<div key={`pad-${i}`} className="calendar-day-box empty-day" />);
+    }
+
+    // 3. Numbered boxes for the actual days
+    for (let day = 1; day <= currentMonthData.totalDays; day++) {
+      const event = currentMonthData.events[day];
+      boxes.push(
+        <div
+          key={`day-${day}`}
+          className={`calendar-day-box ${event ? `has-event event-${event.type}` : ''}`}
+        >
+          <div className="day-box-header">
+            <span className="day-number">{day}</span>
+            {day === 1 && <span className="day-month-indicator">{currentMonthData.name.split(' ')[0]}</span>}
+          </div>
+          {event && (
+            <div className={`event-badge-card type-${event.type}`}>
+              <div className="event-badge-dot"></div>
+              <div className="event-badge-label">{event.title}</div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return { headers, boxes };
+  };
+
+  const { headers, boxes } = renderCalendarBoxes();
 
   return (
     <div className="portal-container">
@@ -413,14 +592,80 @@ function Dashboard({ role, username }) {
           </div>
 
           <h2 className="tab-header">
-            {activeTab === 'Attendance' && selectedSubItem === 'Class 201'
+            {activeTab === 'Calendar'
+              ? 'Balvihar Calendar 2026–2027 (वार्षिक कैलेंडर)'
+              : activeTab === 'Attendance' && selectedSubItem === 'Class 201'
               ? 'Class 201 Attendance (कक्षा २०१ उपस्थिति)'
               : selectedSubItem || activeTab}
           </h2>
 
           <div className="tab-inner-content">
-            {/* 1. Class 201 Attendance Table */}
-            {activeTab === 'Attendance' && selectedSubItem === 'Class 201' ? (
+            {/* 1. FULL INTERACTIVE CALENDAR WITH DATE BOXES */}
+            {activeTab === 'Calendar' ? (
+              <div className="calendar-interactive-wrapper">
+                {/* Top Location Legend & Info */}
+                <div className="calendar-legend-bar">
+                  <div className="legend-tag legend-location">
+                    <span className="dot dot-nhs"></span>
+                    <strong>NHS</strong> = Norcross High School
+                  </div>
+                  <div className="legend-pills">
+                    <span className="pill pill-in-person">● Regular (@NHS)</span>
+                    <span className="pill pill-online">● Online (ऑनलाइन)</span>
+                    <span className="pill pill-special">● Special Events / SAC</span>
+                    <span className="pill pill-exam">● Oral / Exam</span>
+                  </div>
+                </div>
+
+                {/* Month Navigator Header */}
+                <div className="calendar-nav-toolbar">
+                  <button
+                    className="month-btn-nav"
+                    disabled={calendarMonthIndex === 0}
+                    onClick={() => setCalendarMonthIndex((prev) => Math.max(0, prev - 1))}
+                  >
+                    ◀ Previous Month
+                  </button>
+
+                  <div className="current-month-heading">
+                    <span className="eng-month-text">{currentMonthData.name}</span>
+                    <span className="hin-month-text">({currentMonthData.hindiName})</span>
+                  </div>
+
+                  <button
+                    className="month-btn-nav"
+                    disabled={calendarMonthIndex === fullCalendarMonths.length - 1}
+                    onClick={() => setCalendarMonthIndex((prev) => Math.min(fullCalendarMonths.length - 1, prev + 1))}
+                  >
+                    Next Month ▶
+                  </button>
+                </div>
+
+                {/* Quick Month Jumper Tabs */}
+                <div className="month-quick-selector">
+                  {fullCalendarMonths.map((m, idx) => (
+                    <button
+                      key={m.name}
+                      className={`month-tab-chip ${calendarMonthIndex === idx ? 'active' : ''}`}
+                      onClick={() => setCalendarMonthIndex(idx)}
+                    >
+                      {m.name.split(' ')[0]} '{m.year.toString().slice(-2)}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Full 7-column Calendar Grid */}
+                <div className="calendar-box-container">
+                  <div className="calendar-weekdays-grid">
+                    {headers}
+                  </div>
+                  <div className="calendar-days-grid">
+                    {boxes}
+                  </div>
+                </div>
+              </div>
+            ) : activeTab === 'Attendance' && selectedSubItem === 'Class 201' ? (
+              /* 2. Class 201 Attendance View */
               <div className="attendance-view-container">
                 <p className="attendance-subtitle">
                   Attendance Record for Class 201 (कक्षा २०१ उपस्थिति अभिलेख)
@@ -466,7 +711,7 @@ function Dashboard({ role, username }) {
                 </div>
               </div>
             ) : activeTab === 'Class' && selectedSubItem === 'Class 201' ? (
-              /* 2. Class 201 Date Tabs */
+              /* 3. Class 201 Date Tabs View */
               <div className="class-201-container">
                 <div className="date-tabs-row">
                   {class201Dates.map((item) => (
@@ -486,7 +731,7 @@ function Dashboard({ role, username }) {
                 </div>
               </div>
             ) : (
-              /* 3. Default Page */
+              /* 4. Default Portal View */
               <div>
                 <p className="welcome-instruction">
                   Welcome to the Balvihar Hindi School portal section (बालविहार हिंदी विद्यालय पोर्टल अनुभाग में आपका स्वागत है).
