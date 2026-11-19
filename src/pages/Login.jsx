@@ -9,12 +9,42 @@ import balviharLogo from '../assets/balvihar-logo.png';
 function Login({ setUserData }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Student');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  // Explicit email-based role mappings
+  const determineRole = (email) => {
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Admin account
+    if (cleanEmail === 'admin@balvihar.org') {
+      return 'Admin';
+    }
+
+    // Teacher accounts
+    const teacherEmails = [
+      'smita@balvihar.org',
+      'jayant@balvihar.org',
+      'manju@balvihar.org',
+    ];
+    if (teacherEmails.includes(cleanEmail)) {
+      return 'Teacher';
+    }
+
+    // Fallback based on email prefixes
+    if (cleanEmail.startsWith('teacher') || cleanEmail.startsWith('instructor')) {
+      return 'Teacher';
+    } else if (cleanEmail.startsWith('ta') || cleanEmail.startsWith('volunteer')) {
+      return 'Teaching Assistant';
+    } else if (cleanEmail.startsWith('parent')) {
+      return 'Parent';
+    }
+
+    return 'Student';
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,11 +59,12 @@ function Login({ setUserData }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      const assignedRole = determineRole(user.email);
 
       if (setUserData) {
         setUserData({
           username: user.email,
-          role: role,
+          role: assignedRole,
         });
       }
 
@@ -52,7 +83,7 @@ function Login({ setUserData }) {
       } else if (error.code === 'auth/too-many-requests') {
         setErrorMessage('Too many failed attempts. Please try again later.');
       } else if (error.code === 'auth/api-key-not-valid') {
-        setErrorMessage('API key is invalid. Please verify your Google Cloud key restrictions.');
+        setErrorMessage('API key is invalid. Please verify your Firebase/Google Cloud key restrictions.');
       } else {
         setErrorMessage(`Login failed: ${error.message}`);
       }
@@ -64,7 +95,6 @@ function Login({ setUserData }) {
   return (
     <div className="page-wrapper">
       <div className="login-card-container">
-        {/* Dual Logos */}
         <div className="logos-row">
           <img
             src={vhpaLogo}
@@ -78,14 +108,11 @@ function Login({ setUserData }) {
           />
         </div>
 
-        {/* Title */}
         <h1 className="school-title">Balvihar Hindi School of Atlanta</h1>
 
-        {/* Card Box */}
         <div className="form-card">
           <h2 className="card-heading">Sign In to Your Account</h2>
 
-          {/* Error Message Box */}
           {errorMessage && (
             <div className="error-alert">
               <span>⚠️ {errorMessage}</span>
@@ -93,13 +120,12 @@ function Login({ setUserData }) {
           )}
 
           <form onSubmit={handleLogin}>
-            {/* Username / Email Field */}
             <div className="input-group">
               <label htmlFor="username">Username / Email</label>
               <input
                 id="username"
                 type="text"
-                placeholder="e.g. shaurya or shaurya@balvihar.org"
+                placeholder="e.g. smita or admin@balvihar.org"
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
@@ -109,7 +135,6 @@ function Login({ setUserData }) {
               />
             </div>
 
-            {/* Password Field */}
             <div className="input-group">
               <label htmlFor="password">Password</label>
               <div className="password-wrapper">
@@ -147,24 +172,6 @@ function Login({ setUserData }) {
               </div>
             </div>
 
-            {/* Role Dropdown */}
-            <div className="input-group">
-              <label htmlFor="role">Role</label>
-              <div className="select-wrapper">
-                <select
-                  id="role"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option value="Student">Student</option>
-                  <option value="Parent">Parent</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Volunteer">Volunteer / Admin</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Submit Button */}
             <button type="submit" className="submit-button" disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
             </button>

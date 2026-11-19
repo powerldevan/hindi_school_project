@@ -230,6 +230,134 @@ body {
 }
 
 /* =========================================
+   Class 201 Attendance Table Styles
+   ========================================= */
+
+.attendance-view-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attendance-header-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.attendance-subtitle {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.role-permission-tag {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.perm-allowed {
+  background-color: #e6f4ea;
+  color: #167946;
+  border: 1px solid #b7e1cd;
+}
+
+.perm-locked {
+  background-color: #feebc8;
+  color: #c05621;
+  border: 1px solid #fbd38d;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.88rem;
+}
+
+.attendance-table th {
+  background-color: #632313;
+  color: #ffffff;
+  padding: 12px 10px;
+  font-weight: 700;
+  border: 1px solid #4a190d;
+}
+
+.attendance-table .student-col {
+  text-align: left;
+  padding-left: 16px;
+  min-width: 180px;
+}
+
+.attendance-table .date-col {
+  min-width: 110px;
+}
+
+.th-hindi {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: normal;
+  color: #eeddd4;
+  margin-top: 2px;
+}
+
+.attendance-table td {
+  padding: 10px 8px;
+  border: 1px solid #edf2f7;
+}
+
+.student-name-cell {
+  text-align: left;
+  font-weight: 600;
+  color: #2d3748;
+  padding-left: 16px !important;
+  background-color: #fafbfc;
+}
+
+.status-cell {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Checkbox Styles in Attendance Table */
+.checkbox-label-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+.checkbox-label-container:hover:not(.disabled-cursor) {
+  background-color: #e6f4ea;
+}
+
+.checkbox-label-container.disabled-cursor {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.attendance-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #167946;
+  cursor: inherit;
+  margin: 0;
+}
+
+/* =========================================
    FULL MONTHLY CALENDAR GRID WITH BOXES
    ========================================= */
 
@@ -300,7 +428,6 @@ body {
   color: #c53030;
 }
 
-/* Nav Toolbar (Month Switcher) */
 .calendar-nav-toolbar {
   display: flex;
   justify-content: space-between;
@@ -351,7 +478,6 @@ body {
   cursor: not-allowed;
 }
 
-/* Quick Month Selector Bar */
 .month-quick-selector {
   display: flex;
   flex-wrap: wrap;
@@ -382,7 +508,6 @@ body {
   border-color: #167946;
 }
 
-/* The Grid Container */
 .calendar-box-container {
   border: 1px solid #cbd5e0;
   border-radius: 8px;
@@ -427,7 +552,6 @@ body {
   gap: 1px;
 }
 
-/* Individual Day Boxes */
 .calendar-day-box {
   background-color: #ffffff;
   min-height: 108px;
@@ -466,7 +590,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Event Badge Inside Day Box */
 .event-badge-card {
   padding: 6px 8px;
   border-radius: 6px;
@@ -490,7 +613,6 @@ body {
   word-break: break-word;
 }
 
-/* Event Color Variations */
 .type-in-person {
   background-color: #e6f4ea;
   border-left: 3px solid #167946;
@@ -519,106 +641,8 @@ body {
 .type-exam .event-badge-dot { background-color: #e53e3e; }
 .type-exam .event-badge-label { color: #c53030; }
 
-/* Highlight Day Box with Event */
 .calendar-day-box.has-event {
   background-color: #fdfefe;
-}
-
-/* =========================================
-   Class 201 Attendance Table Styles
-   ========================================= */
-
-.attendance-view-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.attendance-subtitle {
-  font-size: 0.95rem;
-  color: #4a5568;
-  font-weight: 600;
-}
-
-.table-responsive {
-  overflow-x: auto;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-}
-
-.attendance-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  font-size: 0.88rem;
-}
-
-.attendance-table th {
-  background-color: #632313;
-  color: #ffffff;
-  padding: 12px 10px;
-  font-weight: 700;
-  border: 1px solid #4a190d;
-}
-
-.attendance-table .student-col {
-  text-align: left;
-  padding-left: 16px;
-  min-width: 180px;
-}
-
-.attendance-table .date-col {
-  min-width: 110px;
-}
-
-.th-hindi {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: normal;
-  color: #eeddd4;
-  margin-top: 2px;
-}
-
-.attendance-table td {
-  padding: 12px 8px;
-  border: 1px solid #edf2f7;
-}
-
-.student-name-cell {
-  text-align: left;
-  font-weight: 600;
-  color: #2d3748;
-  padding-left: 16px !important;
-  background-color: #fafbfc;
-}
-
-.status-cell {
-  vertical-align: middle;
-}
-
-.badge-present {
-  display: inline-block;
-  background-color: #e6f4ea;
-  color: #167946;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-}
-
-.badge-absent {
-  display: inline-block;
-  background-color: #fed7d7;
-  color: #c53030;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-}
-
-.badge-unrecorded {
-  color: #a0aec0;
-  font-weight: bold;
 }
 
 /* =========================================
@@ -715,7 +739,6 @@ body {
   border-radius: 4px;
 }
 
-/* Card Section Blocks */
 .work-block {
   padding: 16px 20px;
   border-radius: 8px;
@@ -801,6 +824,658 @@ body {
   border-radius: 4px;
   font-size: 0.88rem;
   margin-top: 14px;
+}
+
+/* =========================================
+   PRAYERS SECTION STYLES
+   ========================================= */
+
+.prayers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.prayers-header-card {
+  background-color: #fcf4ed;
+  border-left: 5px solid #632313;
+  padding: 18px 22px;
+  border-radius: 8px;
+}
+
+.vhpa-badge {
+  display: inline-block;
+  background-color: #167946;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.prayers-main-title {
+  color: #632313;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.prayers-subtitle {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.prayer-card {
+  background-color: #ffffff;
+  border: 1.5px solid #eeddd4;
+  border-left: 5px solid #167946;
+  border-radius: 8px;
+  padding: 22px 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.prayer-card.accent-om {
+  border-left-color: #dd6b20;
+}
+
+.prayer-card.accent-closing {
+  border-left-color: #805ad5;
+}
+
+.prayer-card.national-anthem-us {
+  border-left-color: #2b6cb0;
+}
+
+.prayer-card.national-anthem-india {
+  border-left-color: #dd6b20;
+}
+
+.prayer-badge {
+  display: inline-block;
+  background-color: #e6f4ea;
+  color: #167946;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.prayer-title {
+  color: #632313;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.prayer-verse {
+  font-size: 1.15rem;
+  color: #1a202c;
+  line-height: 1.85;
+  font-weight: 600;
+  background-color: #fcf4ed;
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.prayer-verse.centered-verse {
+  text-align: center;
+  font-size: 1.8rem;
+  letter-spacing: 12px;
+  color: #632313;
+}
+
+.prayer-verse.anthem-english {
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.prayer-transliteration {
+  font-size: 0.92rem;
+  color: #4a5568;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-left: 6px;
+}
+
+.prayer-meaning {
+  font-size: 0.88rem;
+  color: #2d3748;
+  line-height: 1.55;
+  background-color: #f7fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 3px solid #632313;
+}
+
+/* =========================================
+   Spelling Bee Section Styles
+   ========================================= */
+
+.spellingbee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spellingbee-header-card {
+  background-color: #fcf4ed;
+  border-left: 5px solid #632313;
+  padding: 16px 20px;
+  border-radius: 6px;
+}
+
+.vhpa-motto {
+  font-weight: 800;
+  color: #632313;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.doc-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.doc-tab-btn {
+  background-color: #f7fafc;
+  border: 1.5px solid #cbd5e0;
+  color: #4a5568;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doc-tab-btn:hover {
+  background-color: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.doc-tab-btn.active {
+  background-color: #167946;
+  color: #ffffff;
+  border-color: #167946;
+}
+
+.doc-content-pane {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.pane-title {
+  color: #632313;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border-bottom: 1.5px solid #eeddd4;
+  padding-bottom: 8px;
+}
+
+.rule-step-box {
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.rule-step-box h4 {
+  color: #2b6cb0;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+.styled-procedure-list {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #2d3748;
+}
+
+.rounds-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.round-card {
+  background-color: #fcf4ed;
+  border-left: 4px solid #632313;
+  padding: 12px 14px;
+  border-radius: 6px;
+}
+
+.round-card h5 {
+  color: #632313;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.round-card p {
+  font-size: 0.85rem;
+  color: #4a5568;
+  line-height: 1.45;
+}
+
+.important-callout {
+  background-color: #fffaf0;
+  border-left: 4px solid #dd6b20;
+  padding: 14px 18px;
+  border-radius: 6px;
+}
+
+.important-callout h4 {
+  color: #c05621;
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+}
+
+.important-callout ul {
+  padding-left: 20px;
+}
+
+.important-callout li {
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  color: #7b341e;
+  line-height: 1.45;
+}
+
+.sample-vibhakti-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.vibhakti-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.vibhakti-table th {
+  background-color: #632313;
+  color: #ffffff;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.vibhakti-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #edf2f7;
+  color: #2d3748;
+}
+
+.vibhakti-table tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+.concept-card {
+  background-color: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #3182ce;
+  padding: 14px 18px;
+  border-radius: 6px;
+}
+
+.concept-card h4 {
+  color: #2b6cb0;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.concept-card p {
+  font-size: 0.9rem;
+  color: #2d3748;
+  line-height: 1.5;
+}
+
+.example-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.example-tag-row span {
+  background-color: #ebf8ff;
+  border: 1px solid #bee3f8;
+  color: #2b6cb0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.varga-list {
+  padding-left: 20px;
+  margin-top: 8px;
+  font-size: 0.88rem;
+  color: #2d3748;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.word-bank-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding: 14px;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.word-chip {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e0;
+  color: #2d3748;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.word-chip:hover {
+  background-color: #167946;
+  color: #ffffff;
+  border-color: #167946;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   SAMPLE EXAM SECTION STYLES
+   ========================================= */
+
+.sample-exam-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.exam-intro-banner {
+  background-color: #fcf4ed;
+  border-left: 5px solid #632313;
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  color: #2d3748;
+}
+
+.exam-class-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exam-class-pill {
+  background-color: #edf2f7;
+  border: 1px solid #cbd5e0;
+  color: #4a5568;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.exam-class-pill:hover {
+  background-color: #e2e8f0;
+}
+
+.exam-class-pill.active {
+  background-color: #632313;
+  color: #ffffff;
+  border-color: #632313;
+}
+
+.exam-part-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.exam-part-btn {
+  background-color: #f7fafc;
+  border: 1.5px solid #cbd5e0;
+  color: #4a5568;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.exam-part-btn:hover {
+  background-color: #edf2f7;
+}
+
+.exam-part-btn.active {
+  background-color: #167946;
+  color: #ffffff;
+  border-color: #167946;
+}
+
+.model-paper-card {
+  background-color: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.model-paper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 2px solid #eeddd4;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.model-paper-header h3 {
+  color: #632313;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.total-marks-badge {
+  background-color: #e6f4ea;
+  color: #167946;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #b7e1cd;
+}
+
+.exam-rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.exam-rubric-table th {
+  background-color: #632313;
+  color: #ffffff;
+  padding: 10px;
+  border: 1px solid #4a190d;
+}
+
+.exam-rubric-table td {
+  padding: 12px 10px;
+  border: 1px solid #e2e8f0;
+  background-color: #fafbfc;
+  color: #2d3748;
+}
+
+.exam-section-block {
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+.exam-sec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.exam-sec-header h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.sec-points {
+  background-color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid currentColor;
+}
+
+.sec-instruction {
+  font-size: 0.92rem;
+  color: #2d3748;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.sec-sub-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 8px;
+}
+
+/* Section Color Coding */
+.reading-sec {
+  background-color: #f7fafc;
+  border-left: 5px solid #3182ce;
+}
+.reading-sec .exam-sec-header h4,
+.reading-sec .sec-points {
+  color: #2b6cb0;
+}
+
+.listening-sec {
+  background-color: #f0fff4;
+  border-left: 5px solid #167946;
+}
+.listening-sec .exam-sec-header h4 {
+  color: #167946;
+}
+
+.speaking-sec {
+  background-color: #fcf4ed;
+  border-left: 5px solid #632313;
+}
+.speaking-sec .exam-sec-header h4 {
+  color: #632313;
+}
+
+.presentation-sec {
+  background-color: #faf5ff;
+  border-left: 5px solid #805ad5;
+}
+.presentation-sec .exam-sec-header h4 {
+  color: #6b46c1;
+}
+
+.hindi-passage-box {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: #1a202c;
+  margin-bottom: 14px;
+}
+
+.hindi-dialogue-box {
+  background-color: #ebf8ff;
+  border: 1px solid #bee3f8;
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #1a202c;
+}
+
+.exam-prompts-list,
+.exam-situations-list {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #1a202c;
+}
+
+.presentation-details-box {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.compulsory-prayer-alert {
+  margin-top: 12px;
+  background-color: #fffaf0;
+  border-left: 4px solid #dd6b20;
+  color: #c05621;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.empty-exam-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #4a5568;
+}
+
+.empty-exam-state h3 {
+  color: #632313;
+  margin-bottom: 8px;
 }
 
 /* Mobile Responsiveness */
