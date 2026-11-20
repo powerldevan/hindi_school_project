@@ -72,8 +72,8 @@ body {
 
 .user-name {
   font-size: 0.88rem;
-  font-weight: 700;
-  color: #333333;
+  font-weight: 800;
+  color: #632313;
 }
 
 .user-role-badge {
@@ -230,7 +230,7 @@ body {
 }
 
 /* =========================================
-   Class 201 Attendance Table Styles
+   Class 201 Attendance Table & ID Privacy Styles
    ========================================= */
 
 .attendance-view-container {
@@ -244,13 +244,44 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .attendance-subtitle {
   font-size: 0.95rem;
   color: #4a5568;
-  font-weight: 600;
+  font-weight: 700;
+}
+
+.privacy-notice-text {
+  display: block;
+  font-size: 0.8rem;
+  color: #718096;
+  margin-top: 2px;
+}
+
+.attendance-controls-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.privacy-toggle-btn {
+  background-color: #edf2f7;
+  border: 1.5px solid #cbd5e0;
+  color: #2d3748;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.privacy-toggle-btn:hover {
+  background-color: #e2e8f0;
+  border-color: #a0aec0;
 }
 
 .role-permission-tag {
@@ -296,7 +327,7 @@ body {
 .attendance-table .student-col {
   text-align: left;
   padding-left: 16px;
-  min-width: 180px;
+  min-width: 190px;
 }
 
 .attendance-table .date-col {
@@ -318,10 +349,36 @@ body {
 
 .student-name-cell {
   text-align: left;
-  font-weight: 600;
-  color: #2d3748;
   padding-left: 16px !important;
   background-color: #fafbfc;
+}
+
+.student-id-badge {
+  display: inline-block;
+  background-color: #e6f4ea;
+  color: #167946;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.staff-revealed-details {
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px dashed #cbd5e0;
+}
+
+.staff-revealed-name {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #632313;
+}
+
+.student-email-sub {
+  font-size: 0.76rem;
+  color: #4a5568;
 }
 
 .status-cell {
@@ -329,7 +386,6 @@ body {
   text-align: center;
 }
 
-/* Checkbox Styles in Attendance Table */
 .checkbox-label-container {
   display: inline-flex;
   align-items: center;
@@ -1382,7 +1438,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* Section Color Coding */
 .reading-sec {
   background-color: #f7fafc;
   border-left: 5px solid #3182ce;

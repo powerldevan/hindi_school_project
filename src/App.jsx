@@ -4,7 +4,11 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 
 function App() {
-  const [userData, setUserData] = useState({ username: '', role: 'Student' });
+  const [userData, setUserData] = useState({
+    username: '',
+    userId: '',
+    role: 'Student',
+  });
 
   return (
     <BrowserRouter>
@@ -12,7 +16,13 @@ function App() {
         <Route path="/" element={<Login setUserData={setUserData} />} />
         <Route
           path="/dashboard"
-          element={<Dashboard username={userData.username} role={userData.role} />}
+          element={
+            <Dashboard
+              username={userData.username}
+              userId={userData.userId}
+              role={userData.role}
+            />
+          }
         />
       </Routes>
     </BrowserRouter>

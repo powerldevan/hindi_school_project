@@ -6,7 +6,7 @@ import './Dashboard.css';
 import balviharLogo from '../assets/balvihar-logo.png';
 import vhpaLogo from '../assets/vhpa-logo.png';
 
-function Dashboard({ role, username }) {
+function Dashboard({ role, username, userId }) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Home');
   const [selectedSubItem, setSelectedSubItem] = useState('');
@@ -20,12 +20,44 @@ function Dashboard({ role, username }) {
   const [sampleExamClass, setSampleExamClass] = useState('Class 201');
   const [sampleExamPart, setSampleExamPart] = useState('oral');
 
-  // Both Teachers and Admins have permission to edit attendance
-  const userEmail = (username || '').toLowerCase();
-  const teacherEmails = ['smita@balvihar.org', 'jayant@balvihar.org', 'manju@balvihar.org'];
-  const isTeacher = role === 'Teacher' || teacherEmails.includes(userEmail);
-  const isAdmin = role === 'Admin' || userEmail === 'admin@balvihar.org';
-  const canEditAttendance = isTeacher || isAdmin;
+  // Privacy toggle (Teachers/TAs/Admins can reveal names/emails if needed; hidden by default)
+  const [showStudentInfo, setShowStudentInfo] = useState(false);
+
+  // Unified directory matching exact login emails to assigned IDs and roles
+  const userEmail = (username || '').trim().toLowerCase();
+  const userDirectory = {
+    // Admin
+    'admin@balvihar.org': { id: 'BV-ADM-01', role: 'Admin' },
+
+    // Teachers
+    'smita@balvihar.org': { id: 'BV-TCH-01', role: 'Teacher' },
+    'jayant@balvihar.org': { id: 'BV-TCH-02', role: 'Teacher' },
+    'manju@balvihar.org': { id: 'BV-TCH-03', role: 'Teacher' },
+
+    // Teaching Assistants / Volunteers
+    'volunteer@balvihar.org': { id: 'BV-TA-01', role: 'Teaching Assistant' },
+    'ta@balvihar.org': { id: 'BV-TA-02', role: 'Teaching Assistant' },
+
+    // Class 201 Students (exact login emails)
+    'ashpal.s@balvihar.org': { id: 'BV201-01', role: 'Student' },
+    'krishna.s@balvihar.org': { id: 'BV201-02', role: 'Student' },
+    'vani.g@balvihar.org': { id: 'BV201-03', role: 'Student' },
+    'prathmesh.a@balvihar.org': { id: 'BV201-04', role: 'Student' },
+    'aarnik.r@balvihar.org': { id: 'BV201-05', role: 'Student' },
+    'anaisha.k@balvihar.org': { id: 'BV201-06', role: 'Student' },
+    'avani.b@balvihar.org': { id: 'BV201-07', role: 'Student' },
+    'shaurya.b@balvihar.org': { id: 'BV201-08', role: 'Student' },
+    'anaya.t@balvihar.org': { id: 'BV201-09', role: 'Student' },
+  };
+
+  const matchedUser = userDirectory[userEmail];
+  const resolvedRole = matchedUser?.role || role || 'Student';
+  const resolvedId = userId || matchedUser?.id || 'BV-USR-01';
+
+  const isTeacher = resolvedRole === 'Teacher';
+  const isTA = resolvedRole === 'Teaching Assistant';
+  const isAdmin = resolvedRole === 'Admin';
+  const canEditAttendance = isTeacher || isTA || isAdmin;
 
   const handleLogout = async () => {
     try {
@@ -209,16 +241,17 @@ function Dashboard({ role, username }) {
     { date: '5/9/2027', hindiDate: '९ मई २०२७' },
   ];
 
-  const class201Students = [
-    'Ashpal Sharma',
-    'Krishna Singh',
-    'Vani Gaur',
-    'Prathmesh Agrawal',
-    'Aarnik Rai',
-    'Anaisha Kumar',
-    'Avani Batchu',
-    'Shaurya Baranwal',
-    'Anaya Tiwari',
+  // Roster identified strictly by Student ID (emails match login credentials)
+  const class201Roster = [
+    { id: 'BV201-01', email: 'ashpal.s@balvihar.org', name: 'Ashpal Sharma' },
+    { id: 'BV201-02', email: 'krishna.s@balvihar.org', name: 'Krishna Singh' },
+    { id: 'BV201-03', email: 'vani.g@balvihar.org', name: 'Vani Gaur' },
+    { id: 'BV201-04', email: 'prathmesh.a@balvihar.org', name: 'Prathmesh Agrawal' },
+    { id: 'BV201-05', email: 'aarnik.r@balvihar.org', name: 'Aarnik Rai' },
+    { id: 'BV201-06', email: 'anaisha.k@balvihar.org', name: 'Anaisha Kumar' },
+    { id: 'BV201-07', email: 'avani.b@balvihar.org', name: 'Avani Batchu' },
+    { id: 'BV201-08', email: 'shaurya.b@balvihar.org', name: 'Shaurya Baranwal' },
+    { id: 'BV201-09', email: 'anaya.t@balvihar.org', name: 'Anaya Tiwari' },
   ];
 
   const buildInitialRecord = (pastOverrides) => {
@@ -251,26 +284,27 @@ function Dashboard({ role, username }) {
     };
   };
 
+  // Keyed strictly by Student ID
   const [attendanceRecords, setAttendanceRecords] = useState({
-    'Ashpal Sharma': buildInitialRecord({}),
-    'Krishna Singh': buildInitialRecord({}),
-    'Vani Gaur': buildInitialRecord({}),
-    'Prathmesh Agrawal': buildInitialRecord({}),
-    'Aarnik Rai': buildInitialRecord({}),
-    'Anaisha Kumar': buildInitialRecord({ '10/18/2026': false }),
-    'Avani Batchu': buildInitialRecord({ '9/13/2026': false, '9/27/2026': false, '10/18/2026': false }),
-    'Shaurya Baranwal': buildInitialRecord({}),
-    'Anaya Tiwari': buildInitialRecord({}),
+    'BV201-01': buildInitialRecord({}),
+    'BV201-02': buildInitialRecord({}),
+    'BV201-03': buildInitialRecord({}),
+    'BV201-04': buildInitialRecord({}),
+    'BV201-05': buildInitialRecord({}),
+    'BV201-06': buildInitialRecord({ '10/18/2026': false }),
+    'BV201-07': buildInitialRecord({ '9/13/2026': false, '9/27/2026': false, '10/18/2026': false }),
+    'BV201-08': buildInitialRecord({}),
+    'BV201-09': buildInitialRecord({}),
   });
 
-  const handleCheckboxToggle = (student, date) => {
+  const handleCheckboxToggle = (studentId, date) => {
     if (!canEditAttendance) return;
 
     setAttendanceRecords((prev) => ({
       ...prev,
-      [student]: {
-        ...prev[student],
-        [date]: !prev[student]?.[date],
+      [studentId]: {
+        ...prev[studentId],
+        [date]: !prev[studentId]?.[date],
       },
     }));
   };
@@ -367,7 +401,7 @@ function Dashboard({ role, username }) {
           <div className="work-block classwork-block">
             <h4>Class Work (कक्षा कार्य)</h4>
             <ul>
-              <li>Pages 67, 69, 73 & 74</li>
+              <li>Pages 67, 69, 73 &amp; 74</li>
               <li><strong>Due:</strong> Sunday Sept 20 @ 11:30 PM</li>
             </ul>
           </div>
@@ -409,7 +443,7 @@ function Dashboard({ role, username }) {
           <div className="work-block homework-block">
             <h4>Homework — Due next class Oct 4th</h4>
             <ol>
-              <li>Page 63 (Note: For Q3 & Q4 take reference from page 61 & 62).</li>
+              <li>Page 63 (Note: For Q3 &amp; Q4 take reference from page 61 &amp; 62).</li>
               <li>Page 60: Do again "Match Oblique" in your notebook.</li>
             </ol>
           </div>
@@ -417,7 +451,7 @@ function Dashboard({ role, username }) {
           <div className="work-block special-block">
             <h4>📖 Book Report (in Hindi) for this Semester — Due Nov 15th</h4>
             <p><strong>Lesson 16:</strong> “हिमाद्रि तुंग शृंग से” (Page 112)</p>
-            <p>Q2 & Q3 will be part of the book report. No need to learn the poem, just write & read 4 lines from your book report. Thanks!</p>
+            <p>Q2 &amp; Q3 will be part of the book report. No need to learn the poem, just write &amp; read 4 lines from your book report. Thanks!</p>
           </div>
         </div>
       ),
@@ -518,13 +552,15 @@ function Dashboard({ role, username }) {
 
           <div className="user-profile-bar">
             <div className="user-details">
-              <span className="user-name">{userEmail}</span>
+              <span className="user-name">ID: {resolvedId}</span>
               <span className="user-role-badge">
                 {isTeacher
                   ? 'Teacher (शिक्षक)'
+                  : isTA
+                  ? 'Teaching Assistant (सहायक शिक्षक)'
                   : isAdmin
                   ? 'Admin (व्यवस्थापक)'
-                  : `${role || 'Student'} (छात्र)`}
+                  : `${resolvedRole} (छात्र)`}
               </span>
             </div>
             <button onClick={handleLogout} className="portal-logout-btn">
@@ -816,14 +852,12 @@ function Dashboard({ role, username }) {
                       </div>
                     </div>
                   ) : (
-                    /* Written Exam Placeholder for Class 201 */
                     <div className="model-paper-card empty-exam-state">
                       <h3>Hindi 201 Model Paper — Written Exam (लिखित परीक्षा)</h3>
                       <p>The Class 201 Written Exam sample paper has not been uploaded yet. Please check back closer to the exam date.</p>
                     </div>
                   )
                 ) : (
-                  /* Placeholder for other classes */
                   <div className="model-paper-card empty-exam-state">
                     <h3>{sampleExamClass} — {sampleExamPart === 'oral' ? 'Oral Exam (मौखिक परीक्षा)' : 'Written Exam (लिखित परीक्षा)'}</h3>
                     <p>Sample exam materials for {sampleExamClass} will be posted here soon.</p>
@@ -1284,22 +1318,39 @@ function Dashboard({ role, username }) {
                 )}
               </div>
             ) : activeTab === 'Attendance' && selectedSubItem === 'Class 201' ? (
-              /* 4. Attendance Table */
+              /* 4. Attendance Table (Strictly ID-based by default) */
               <div className="attendance-view-container">
                 <div className="attendance-header-meta">
-                  <p className="attendance-subtitle">
-                    Attendance Record for Class 201 (कक्षा २०१ उपस्थिति अभिलेख)
-                  </p>
-                  <div
-                    className={`role-permission-tag ${
-                      canEditAttendance ? 'perm-allowed' : 'perm-locked'
-                    }`}
-                  >
-                    {canEditAttendance ? (
-                      <span>✏️ Edit Access Granted ({isAdmin ? 'Admin' : 'Teacher'})</span>
-                    ) : (
-                      <span>🔒 View-Only Mode (Only Teachers &amp; Admin can update)</span>
+                  <div>
+                    <p className="attendance-subtitle">
+                      Attendance Record for Class 201 (कक्षा २०१ उपस्थिति अभिलेख)
+                    </p>
+                    <small className="privacy-notice-text">
+                      🔒 Personal information (names &amp; emails) is hidden behind Student IDs.
+                    </small>
+                  </div>
+
+                  <div className="attendance-controls-group">
+                    {canEditAttendance && (
+                      <button
+                        className="privacy-toggle-btn"
+                        onClick={() => setShowStudentInfo(!showStudentInfo)}
+                      >
+                        {showStudentInfo ? '🙈 Hide Personal Info' : '👁️ Reveal Names & Emails (Staff)'}
+                      </button>
                     )}
+
+                    <div
+                      className={`role-permission-tag ${
+                        canEditAttendance ? 'perm-allowed' : 'perm-locked'
+                      }`}
+                    >
+                      {canEditAttendance ? (
+                        <span>✏️ Edit Access Granted ({resolvedRole})</span>
+                      ) : (
+                        <span>🔒 View-Only Mode (Teachers, TAs &amp; Admin only)</span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -1307,7 +1358,11 @@ function Dashboard({ role, username }) {
                   <table className="attendance-table">
                     <thead>
                       <tr>
-                        <th className="student-col">Student's Name (विद्यार्थी का नाम)</th>
+                        <th className="student-col">
+                          {canEditAttendance && showStudentInfo
+                            ? 'Student ID & Info'
+                            : 'Student ID (विद्यार्थी पहचान संख्या)'}
+                        </th>
                         {attendanceDates.map((d) => (
                           <th key={d.date} className="date-col">
                             <div>{d.date}</div>
@@ -1317,11 +1372,19 @@ function Dashboard({ role, username }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {class201Students.map((student) => (
-                        <tr key={student}>
-                          <td className="student-name-cell">{student}</td>
+                      {class201Roster.map((student) => (
+                        <tr key={student.id}>
+                          <td className="student-name-cell">
+                            <div className="student-id-badge">{student.id}</div>
+                            {canEditAttendance && showStudentInfo && (
+                              <div className="staff-revealed-details">
+                                <div className="staff-revealed-name">{student.name}</div>
+                                <div className="student-email-sub">{student.email}</div>
+                              </div>
+                            )}
+                          </td>
                           {attendanceDates.map((d) => {
-                            const isPresent = !!attendanceRecords[student]?.[d.date];
+                            const isPresent = !!attendanceRecords[student.id]?.[d.date];
                             return (
                               <td key={d.date} className="status-cell">
                                 <label
@@ -1330,7 +1393,9 @@ function Dashboard({ role, username }) {
                                   }`}
                                   title={
                                     canEditAttendance
-                                      ? (isPresent ? 'Mark Absent' : 'Mark Present')
+                                      ? isPresent
+                                        ? 'Mark Absent'
+                                        : 'Mark Present'
                                       : 'Locked: View-only'
                                   }
                                 >
@@ -1339,7 +1404,7 @@ function Dashboard({ role, username }) {
                                     className="attendance-checkbox"
                                     checked={isPresent}
                                     disabled={!canEditAttendance}
-                                    onChange={() => handleCheckboxToggle(student, d.date)}
+                                    onChange={() => handleCheckboxToggle(student.id, d.date)}
                                   />
                                 </label>
                               </td>

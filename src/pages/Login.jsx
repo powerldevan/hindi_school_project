@@ -15,35 +15,51 @@ function Login({ setUserData }) {
 
   const navigate = useNavigate();
 
-  // Explicit email-based role mappings
-  const determineRole = (email) => {
+  // Unified directory matching exact login emails to assigned IDs and roles
+  const userDirectory = {
+    // Admin
+    'admin@balvihar.org': { id: 'BV-ADM-01', role: 'Admin' },
+
+    // Teachers
+    'smita@balvihar.org': { id: 'BV-TCH-01', role: 'Teacher' },
+    'jayant@balvihar.org': { id: 'BV-TCH-02', role: 'Teacher' },
+    'manju@balvihar.org': { id: 'BV-TCH-03', role: 'Teacher' },
+
+    // Teaching Assistants / Volunteers
+    'volunteer@balvihar.org': { id: 'BV-TA-01', role: 'Teaching Assistant' },
+    'ta@balvihar.org': { id: 'BV-TA-02', role: 'Teaching Assistant' },
+
+    // Class 201 Students (exact login emails)
+    'ashpal.s@balvihar.org': { id: 'BV201-01', role: 'Student' },
+    'krishna.s@balvihar.org': { id: 'BV201-02', role: 'Student' },
+    'vani.g@balvihar.org': { id: 'BV201-03', role: 'Student' },
+    'prathmesh.a@balvihar.org': { id: 'BV201-04', role: 'Student' },
+    'aarnik.r@balvihar.org': { id: 'BV201-05', role: 'Student' },
+    'anaisha.k@balvihar.org': { id: 'BV201-06', role: 'Student' },
+    'avani.b@balvihar.org': { id: 'BV201-07', role: 'Student' },
+    'shaurya.b@balvihar.org': { id: 'BV201-08', role: 'Student' },
+    'anaya.t@balvihar.org': { id: 'BV201-09', role: 'Student' },
+  };
+
+  const getUserProfile = (email) => {
     const cleanEmail = email.trim().toLowerCase();
 
-    // Admin account
-    if (cleanEmail === 'admin@balvihar.org') {
-      return 'Admin';
+    if (userDirectory[cleanEmail]) {
+      return userDirectory[cleanEmail];
     }
 
-    // Teacher accounts
-    const teacherEmails = [
-      'smita@balvihar.org',
-      'jayant@balvihar.org',
-      'manju@balvihar.org',
-    ];
-    if (teacherEmails.includes(cleanEmail)) {
-      return 'Teacher';
-    }
-
-    // Fallback based on email prefixes
-    if (cleanEmail.startsWith('teacher') || cleanEmail.startsWith('instructor')) {
-      return 'Teacher';
+    // Fallback assignment if a new email is added in Firebase Auth
+    if (cleanEmail.startsWith('admin')) {
+      return { id: 'BV-ADM-99', role: 'Admin' };
+    } else if (cleanEmail.startsWith('teacher') || cleanEmail.startsWith('instructor')) {
+      return { id: 'BV-TCH-99', role: 'Teacher' };
     } else if (cleanEmail.startsWith('ta') || cleanEmail.startsWith('volunteer')) {
-      return 'Teaching Assistant';
+      return { id: 'BV-TA-99', role: 'Teaching Assistant' };
     } else if (cleanEmail.startsWith('parent')) {
-      return 'Parent';
+      return { id: 'BV-PAR-01', role: 'Parent' };
     }
 
-    return 'Student';
+    return { id: 'BV-STU-00', role: 'Student' };
   };
 
   const handleLogin = async (e) => {
@@ -59,12 +75,13 @@ function Login({ setUserData }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      const assignedRole = determineRole(user.email);
+      const profile = getUserProfile(user.email);
 
       if (setUserData) {
         setUserData({
           username: user.email,
-          role: assignedRole,
+          userId: profile.id,
+          role: profile.role,
         });
       }
 
@@ -125,7 +142,7 @@ function Login({ setUserData }) {
               <input
                 id="username"
                 type="text"
-                placeholder="e.g. smita or admin@balvihar.org"
+                placeholder="Enter your email"
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
